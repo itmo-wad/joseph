@@ -1,0 +1,32 @@
+- venv and dependencies
+virtualenv venv --python=python3.5
+source venv/bin/activate
+pip install flask requests flask-sslify gunicorn
+
+- Heroku stuff
+git init
+git add .
+heroku git:remote -a joseph-wad-task2
+git push heroku master
+heroku logs --tail
+
+- Requirement.txt creation
+pip freeze > requirements.txt
+
+- Flask routes
+https://hackersandslackers.com/flask-routes/
+
+- Favicon Documentation
+https://flask.palletsprojects.com/en/1.1.x/patterns/favicon/
+
+- Favicon maker
+https://www.favicon.cc/
+
+- Credit 404
+https://codepen.io/akashrajendra/pen/JKKRvQ
+
+- Static file tutorial
+https://code-maven.com/flask-serve-static-files
+
+- Heroku Deployment tutorial
+https://www.youtube.com/watch?v=skc-ZEU9kO8
