@@ -1,0 +1,14 @@
++ venv and dependencies
+virtualenv venv --python=python3.5
+source venv/bin/activate
+pip install flask requests flask-sslify gunicorn flask-login
+
++ Heroku stuff
+git init
+git add .
+heroku git:remote -a joseph-wad-task3
+git push heroku master
+heroku logs --tail
+
++ Requirement.txt creation
+pip freeze > requirements.txt
