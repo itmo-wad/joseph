@@ -1,9 +1,9 @@
 import os
-from flask import Flask, render_template, send_from_directory
-from flask import redirect, url_for
-from flask import url_for, make_response
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask import Flask, render_template, request, send_from_directory
+from flask import redirect, url_for, make_response, jsonify
 from flask_sslify import SSLify as ssl
-from flask_login import LoginManager, login_required
+from flask_login import LoginManager, login_required, current_user
 from logic import auth
 from logic import user as u
 
@@ -19,15 +19,22 @@ app.register_blueprint(auth.auth)
 def index():
     return render_template('login.html')
 
+
 @app.route('/register', methods=['GET'])
 def register():
     return render_template('register.html')
+
 
 @app.route('/cabernet')
 @login_required
 def cabernet():
     return render_template('success.html')
 
+# List all registerd users
+@app.route('/users')
+@login_required
+def list_users():
+    return jsonify(u.user_database)
 
 # Satic file route definition
 @app.route('/img/<string:image>')
@@ -44,6 +51,11 @@ def rout_js(script):
 def rout_css(style):
     return send_from_directory(os.path.join(app.root_path, 'static', 'css'),
                                style)
+
+# Unauthorized Access Handling
+@login.unauthorized_handler
+def unauthorized_handler():
+    return redirect(url_for("index"))
 
 # Error handling 404
 @app.errorhandler(404)
@@ -63,20 +75,31 @@ def server_error():
     """Internal server error."""
     return make_response(render_template("error/500.html"), 500)
 
-@login.request_loader
-def load_user(request):
-    token = request.headers.get('Authorization')
-    if token is None:
-        token = request.args.get('token')
+#Mandatory function For flask-login
+@login.user_loader
+def user_loader(email):
+    if email not in u.user_database['User']:
+        return
 
-    if token is not None:
-        username,password = token.split(":") # naive token
-        user_entry = User.get(username)
-        if (user_entry is not None):
-            user = User(user_entry[0],user_entry[1])
-            if (user.password == password):
-                return user
-    return None
+    user = u.User()
+    user.id = email
+    return user
+
+#Mandatory function For flask-login
+@login.request_loader
+def request_loader(request):
+    userEmail = request.form.get('userEmail')
+    if userEmail not in u.user_database['User']:
+        return
+
+    user = u.User()
+    user.id = userEmail
+
+    root = u.user_database['User'][userEmail]
+    user.is_authenticated = check_password_hash(root['pswd'], userPass)
+
+    return user
+
 
 if __name__ == '__main__':
     app.run(debug=True)
