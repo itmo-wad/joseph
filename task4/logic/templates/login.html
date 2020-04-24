@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <ul class="tab-group">
+    <li class="tab"><a href="/register">Sign Up</a></li>
+  </ul>
+  <div class="tab-content">
+    <div id="login" style="display: block;">
+      <h1>Welcome Back!</h1>
+      <form action="/login" method="post">
+      <!-- <form action="javascript:void(0);"> -->
+        <div class="field-wrap">
+          <label>
+            Email Address<span class="req">*</span>
+          </label>
+          <input class="email-input" name="userEmail" type="email" required autocomplete="off" />
+        </div>
+        <div class="field-wrap">
+          <label>
+            Password<span class="req">*</span>
+          </label>
+          <input class="pwd-input" name="userPass" type="password" required autocomplete="off" />
+        </div>
+        <p class="forgot"><a href="/register">Forgot Password?</a></p>
+        <button class="button button-block login">Log In</button>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
