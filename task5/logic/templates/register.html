@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+      <ul class="tab-group">
+        <li class="tab"><a href="/">Log In</a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="signup" style="display: block;">
+          <h1>Sign Up for Free</h1>
+          <form action="/signup/" method="post">
+          <!-- <form action="javascript:void(0);"> -->
+            <div class="top-row">
+              <div class="field-wrap">
+                <label>
+                  First Name<span class="req">*</span>
+                </label>
+                <input type="text" name="userFname" required autocomplete="off" />
+              </div>
+              <div class="field-wrap">
+                <label>
+                  Last Name<span class="req">*</span>
+                </label>
+                <input type="text" name="userLname" required autocomplete="off" />
+              </div>
+            </div>
+            <div class="field-wrap">
+              <label>
+                Email Address<span class="req">*</span>
+              </label>
+              <input type="email" name="userEmail" required autocomplete="off" />
+            </div>
+            <div class="field-wrap">
+              <label>
+                Set A Password<span class="req">*</span>
+              </label>
+              <input type="password" name="userPass" required autocomplete="off" />
+            </div>
+            <button type="submit" class="button button-block">Get Started</button>
+          </form>
+        </div>
+      </div>
+
+{% endblock %}
