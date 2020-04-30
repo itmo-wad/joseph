@@ -5,7 +5,7 @@ from flask import Flask
 import os
 
 app = Flask(__name__)
-UPLOAD_FOLDER = '/uploads'
+UPLOAD_FOLDER = os.path.join(app.root_path, 'uploads')
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 app.config["MONGO_URI"] = "mongodb://localhost:27017/wad_task5"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
